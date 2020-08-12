@@ -1,10 +1,11 @@
 import React from 'react';
+import Layout from './core/Layout';
 
 const App = () => {
   return (
-    <div>
-      <h1>Hello React</h1>
-    </div>
+    <Layout>
+      <h1>React</h1>
+    </Layout>
   );
 };
 
