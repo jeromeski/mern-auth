@@ -78,6 +78,32 @@ exports.accountActivation = (req, res) => {
   }
 };
 
+exports.signin = (req, res) => {
+  const { email, password } = req.body;
+
+  User.findOne({ email }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(401).json({
+        error: "User doesn't exist. Signup first!"
+      });
+    }
+    if (!user.authenticate(password)) {
+      return res.status(400).json({
+        error: "User/Password doesn't match"
+      });
+    }
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d'
+    });
+    const { _id, name, email, role } = user;
+
+    return res.json({
+      token,
+      user: { _id, name, email, role }
+    });
+  });
+};
+
 /*
 exports.signup = (req, res) => {
   console.log('Request Body :', req.body);
