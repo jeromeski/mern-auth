@@ -26,6 +26,7 @@ app.use(cors());
 
 // route middlewares
 app.use('/api', authRoutes);
+app.get('/test', (req, res) => console.log('You have reached Test page'));
 
 const PORT = process.env.PORT || 8000;
 
