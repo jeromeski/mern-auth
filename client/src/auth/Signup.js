@@ -15,14 +15,39 @@ const Signup = () => {
 
   const { name, email, password, buttonText } = values;
 
-  const handleChange = name => event => {};
+  const handleChange = name => event =>
+    setValues({ ...values, [name]: event.target.value });
 
-  const clickSubmit = event => {};
+  const clickSubmit = event => {
+    event.preventDefault();
+    setValues({ ...values, buttonText: 'Submitting' });
+    axios({
+      method: 'POST',
+      url: '/api/signup',
+      data: { name, email, password }
+    })
+      .then(response => {
+        console.log('SIGNUP SUCCESS', response);
+        setValues({
+          ...values,
+          name: '',
+          email: '',
+          password: '',
+          buttonText: 'Submitted'
+        });
+        toast.success(response.data.message);
+      })
+      .catch(error => {
+        console.log('SIGNUP ERROR', error.response.data);
+        setValues({ ...values, buttonText: 'Submit' });
+        toast.error(error.response.data.error);
+      });
+  };
 
   const signupForm = () => (
-    <form action=''>
+    <form onSubmit={clickSubmit}>
       <div className='form-group'>
-        <lable className='text-muted'>Name</lable>
+        <label className='text-muted'>Name</label>
         <input
           type='text'
           value={name}
@@ -31,7 +56,7 @@ const Signup = () => {
         />
       </div>
       <div className='form-group'>
-        <lable className='text-muted'>Email</lable>
+        <label className='text-muted'>Email</label>
         <input
           type='email'
           value={email}
@@ -40,7 +65,7 @@ const Signup = () => {
         />
       </div>
       <div className='form-group'>
-        <lable className='text-muted'>Password</lable>
+        <label className='text-muted'>Password</label>
         <input
           type='password'
           value={password}
@@ -58,7 +83,18 @@ const Signup = () => {
   return (
     <Layout>
       <div className='col-md-6 offset-md-3'>
-        <ToastContainer />
+        <ToastContainer
+          position='bottom-right'
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        {JSON.stringify({ name, email, password })}
         <h1 className='p-5 text-center'>Signup</h1>
         {signupForm()}
       </div>
