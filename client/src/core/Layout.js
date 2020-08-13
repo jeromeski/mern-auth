@@ -15,6 +15,12 @@ const Layout = ({ children }) => {
           Signup
         </Link>
       </li>
+
+      <li className='nav-item'>
+        <Link to='/signin' className='text-light nav-link'>
+          Signin
+        </Link>
+      </li>
     </ul>
   );
 
