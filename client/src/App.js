@@ -4,7 +4,7 @@ import Layout from './core/Layout';
 const App = () => {
   return (
     <Layout>
-      <h1>React</h1>
+      <h1>Home Page</h1>
     </Layout>
   );
 };
