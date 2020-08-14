@@ -18,6 +18,7 @@ mongoose
   .catch(err => console.log(`DB Connection Error: ${err}`));
 
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 // middlewares
 app.use(morgan('dev'));
@@ -26,7 +27,7 @@ app.use(cors());
 
 // route middlewares
 app.use('/api', authRoutes);
-app.get('/test', (req, res) => console.log('You have reached Test page'));
+app.use('/api', userRoutes);
 
 const PORT = process.env.PORT || 8000;
 
