@@ -1,5 +1,4 @@
 import cookie from 'js-cookie';
-import { response } from 'express';
 
 // set in cookie
 export const setCookie = (key, value) => {
@@ -20,7 +19,7 @@ export const removeCookie = key => {
 };
 
 // extract data such as stored token from cookie
-export const getCookie = (key, value) => {
+export const getCookie = key => {
   if (window !== 'undefined') {
     return cookie.get(key);
   }
@@ -34,7 +33,7 @@ export const setLocalStorage = (key, value) => {
 };
 
 // remove from localStorage
-export const setLocalStorage = (key, value) => {
+export const removeLocalStorage = key => {
   if (window !== 'undefined') {
     localStorage.removeItem(key);
   }
@@ -60,4 +59,11 @@ export const isAuth = () => {
       }
     }
   }
+};
+
+// signout
+export const signout = next => {
+  removeCookie('token');
+  removeLocalStorage('user');
+  next();
 };

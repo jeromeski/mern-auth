@@ -4,6 +4,7 @@ import Layout from '../core/Layout';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { isAuth } from './helpers';
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -94,7 +95,7 @@ const Signup = () => {
           draggable
           pauseOnHover
         />
-        {JSON.stringify({ name, email, password })}
+        {isAuth ? <Redirect to='/' /> : null}
         <h1 className='p-5 text-center'>Signup</h1>
         {signupForm()}
       </div>
