@@ -63,7 +63,7 @@ const Private = () => {
       </div>
       <div className='form-group'>
         <label className='text-muted'>Email</label>
-        <input type='email' value={email} readOnly className='form-control' />
+        <input type='email' defaultValue={email} className='form-control' />
       </div>
       <div className='form-group'>
         <label className='text-muted'>Password</label>
