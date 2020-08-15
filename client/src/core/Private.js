@@ -3,7 +3,7 @@ import Layout from '../core/Layout';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { isAuth, getCookie, signout } from '../auth/helpers';
+import { isAuth, getCookie, signout, updateUser } from '../auth/helpers';
 
 const Private = ({ history }) => {
   const [values, setValues] = useState({
@@ -52,24 +52,25 @@ const Private = ({ history }) => {
     event.preventDefault();
     setValues({ ...values, buttonText: 'Submitting' });
     axios({
-      method: 'POST',
-      url: '/api/signup',
-      data: { name, email, password }
+      method: 'PUT',
+      url: '/api/user/update',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { name, password }
     })
       .then(response => {
-        console.log('SIGNUP SUCCESS', response);
-        setValues({
-          ...values,
-          role: '',
-          name: '',
-          email: '',
-          password: '',
-          buttonText: 'Submitted'
+        console.log('PRIVATE PROFILE UPDATE SUCCESS', response);
+        updateUser(response, () => {
+          setValues({
+            ...values,
+            buttonText: 'Submitted'
+          });
+          toast.success('Profile updated successfully');
         });
-        toast.success(response.data.message);
       })
       .catch(error => {
-        console.log('SIGNUP ERROR', error.response.data);
+        console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data);
         setValues({ ...values, buttonText: 'Submit' });
         toast.error(error.response.data.error);
       });
@@ -92,7 +93,12 @@ const Private = ({ history }) => {
       </div>
       <div className='form-group'>
         <label className='text-muted'>Email</label>
-        <input type='email' defaultValue={email} className='form-control' />
+        <input
+          type='email'
+          defaultValue={email}
+          className='form-control'
+          disabled
+        />
       </div>
       <div className='form-group'>
         <label className='text-muted'>Password</label>
