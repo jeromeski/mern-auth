@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { Redirect, Link } from 'react-router-dom';
 import Layout from '../core/Layout';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { isAuth } from './helpers';
 
-const Signup = () => {
+const Forgot = ({ history }) => {
   const [values, setValues] = useState({
-    name: '',
     email: '',
-    password: '',
-    buttonText: 'Submit'
+    buttonText: 'Password Reset'
   });
 
-  const { name, email, password, buttonText } = values;
+  const { email, buttonText } = values;
 
   const handleChange = name => event =>
     setValues({ ...values, [name]: event.target.value });
@@ -23,54 +19,31 @@ const Signup = () => {
     event.preventDefault();
     setValues({ ...values, buttonText: 'Submitting' });
     axios({
-      method: 'POST',
-      url: '/api/signup',
-      data: { name, email, password }
+      method: 'PUT',
+      url: '/api/forgot-password',
+      data: { email }
     })
       .then(response => {
-        console.log('SIGNUP SUCCESS', response);
-        setValues({
-          ...values,
-          name: '',
-          email: '',
-          password: '',
-          buttonText: 'Submitted'
-        });
+        console.log('FORGOT PASSWORD SUCCESS', response);
         toast.success(response.data.message);
+        setValues({ ...values, buttonText: 'Requested' });
       })
+      // toast.success(`Hey ${response.data.user.name}, Welcome back!`);
       .catch(error => {
-        console.log('SIGNUP ERROR', error.response.data);
-        setValues({ ...values, buttonText: 'Submit' });
+        console.log('FORGOT PASSWORD', error.response.error);
+        setValues({ ...values, buttonText: 'Password Reset' });
         toast.error(error.response.data.error);
       });
   };
 
-  const signupForm = () => (
+  const forgotPasswordForm = () => (
     <form onSubmit={clickSubmit}>
-      <div className='form-group'>
-        <label className='text-muted'>Name</label>
-        <input
-          type='text'
-          value={name}
-          onChange={handleChange('name')}
-          className='form-control'
-        />
-      </div>
       <div className='form-group'>
         <label className='text-muted'>Email</label>
         <input
           type='email'
           value={email}
           onChange={handleChange('email')}
-          className='form-control'
-        />
-      </div>
-      <div className='form-group'>
-        <label className='text-muted'>Password</label>
-        <input
-          type='password'
-          value={password}
-          onChange={handleChange('password')}
           className='form-control'
         />
       </div>
@@ -95,18 +68,11 @@ const Signup = () => {
           draggable
           pauseOnHover
         />
-        {isAuth() ? <Redirect to='/' /> : null}
-        <h1 className='p-5 text-center'>Signup</h1>
-        {signupForm()}
-        <br />
-        <Link
-          to='/auth/password/forgot'
-          className='btn btn-sm btn-outline-danger'>
-          Forgot Password
-        </Link>
+        <h1 className='p-5 text-center'>Forgot Password</h1>
+        {forgotPasswordForm()}
       </div>
     </Layout>
   );
 };
 
-export default Signup;
+export default Forgot;
