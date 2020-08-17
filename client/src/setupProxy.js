@@ -4,7 +4,7 @@ const proxy = createProxyMiddleware;
 
 module.exports = function(app) {
   app.use(
-    proxy(['/api', '/auth/google'], {
+    proxy(['/api', '/google-login'], {
       target: 'http://localhost:8000'
     })
   );
