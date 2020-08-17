@@ -24,7 +24,7 @@ exports.signup = (req, res) => {
       subject: `Account activation link`,
       html: `
         <p>Please use the following link to activate your account</p>
-        <p>${process.env.CLIENT_URL}/auth/activate/${token}</p>
+        <a href='${process.env.CLIENT_URL}/auth/activate/${token}'>Activation Link</a>
         <hr />
         <p>This email may contain sensitive information</p>
         <p>${process.env.CLIENT_URL}</p>
@@ -128,6 +128,46 @@ exports.adminMiddleware = (req, res, next) => {
     next();
   });
 };
+
+exports.forgotPassword = (req, res) => {
+  const { email } = req.body;
+  User.findOne({ email }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: 'Email does not exist'
+      });
+    }
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_RESET_PASSWORD, {
+      expiresIn: '10m'
+    });
+
+    const emailData = {
+      from: process.env.EMAIL_FROM,
+      to: email,
+      subject: `Password Reset link`,
+      html: `
+        <p>Please use the following link to reset your account</p>
+        <a href='${process.env.CLIENT_URL}/auth/password/reset/${token}'>Password Reset Link</a>
+        <hr />
+        <p>This email may contain sensitive information</p>
+        <p>${process.env.CLIENT_URL}</p>
+      `
+    };
+    sgMail
+      .send(emailData)
+      .then(sent => {
+        console.log('RESET PASSWORD SENT');
+        return res.json({
+          message: `Email has been sent to ${email}. Follow the instruction to reset your password.`
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+
+exports.resetPassword = (req, res) => {};
 
 /*
 exports.signup = (req, res) => {
