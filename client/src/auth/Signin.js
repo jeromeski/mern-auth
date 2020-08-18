@@ -6,6 +6,7 @@ import { authenticate, isAuth } from './helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Google from './Google';
+import Facebook from './Facebook';
 
 const Signin = ({ history }) => {
   const [values, setValues] = useState({
@@ -103,6 +104,7 @@ const Signin = ({ history }) => {
         {isAuth() ? <Redirect to='/' /> : null}
         <h1 className='p-5 text-center'>Signin</h1>
         <Google informParent={informParent} />
+        <Facebook informParent={informParent} />
         {signinForm()}
 
         <br />
