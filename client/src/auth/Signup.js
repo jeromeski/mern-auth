@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import Layout from '../core/Layout';
@@ -5,6 +6,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { isAuth } from './helpers';
+import { Helmet } from 'react-helmet';
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -45,6 +47,13 @@ const Signup = () => {
       });
   };
 
+  const head = () => (
+    <Helmet>
+      <meta charSet='utf-8' />
+      <title>MERN Stack | Signup</title>
+    </Helmet>
+  );
+
   const signupForm = () => (
     <form onSubmit={clickSubmit}>
       <div className='form-group'>
@@ -83,6 +92,7 @@ const Signup = () => {
   );
   return (
     <Layout>
+      {head()}
       <div className='col-md-6 offset-md-3'>
         <ToastContainer
           position='bottom-right'

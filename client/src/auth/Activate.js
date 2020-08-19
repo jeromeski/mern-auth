@@ -1,3 +1,5 @@
+// eslint-disable-next-line react-hooks/exhaustive-deps
+
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import axios from 'axios';

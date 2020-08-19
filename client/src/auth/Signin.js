@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import Layout from '../core/Layout';
@@ -7,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Google from './Google';
 import Facebook from './Facebook';
+import { Helmet } from 'react-helmet';
 
 const Signin = ({ history }) => {
   const [values, setValues] = useState({
@@ -14,6 +16,13 @@ const Signin = ({ history }) => {
     password: '',
     buttonText: 'Submit'
   });
+
+  const head = () => (
+    <Helmet>
+      <meta charSet='utf-8' />
+      <title>MERN Stack | Signin</title>
+    </Helmet>
+  );
 
   const { email, password, buttonText } = values;
 
@@ -88,6 +97,7 @@ const Signin = ({ history }) => {
   );
   return (
     <Layout>
+      {head()}
       <div className='col-md-6 offset-md-3'>
         <ToastContainer
           position='bottom-right'
