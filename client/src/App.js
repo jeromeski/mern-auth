@@ -5,14 +5,18 @@ const App = () => {
   return (
     <Layout>
       <div className='col-md-6 offset-md-3 text-center'>
-        <h1 className='pt-5'>MERNSTACK </h1>
-        <h2>BOILERPLATE</h2>
+        <h1 className='p-5'>React Node MongoDB Authentication Boilerplate</h1>
+        <h2>MERN STACK</h2>
         <hr />
         <p className='lead'>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam
-          reprehenderit, reiciendis dolor perspiciatis, explicabo vitae
-          necessitatibus obcaecati harum minus tenetur eaque sapiente dolorem.
-          Atque hic velit quo necessitatibus officia dolores?
+          MERN stack login register system with account activation, forgot
+          password, reset password, login with facebook and google as well as
+          private and protected routes for authenticated user and users with the
+          role of admin.
+        </p>
+        <h4 className='p2'>Bonus</h4>
+        <p className='lead'>
+          Profile update & deployment to digital ocean cloud servers
         </p>
       </div>
     </Layout>
